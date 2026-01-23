@@ -1,3 +1,4 @@
+import { LoadingSpinner } from "../../share/components/LoadingSpinner";
 import { useLabels } from "../hooks/useLabels";
 
 export const LabelPicker = () => {
@@ -5,8 +6,8 @@ export const LabelPicker = () => {
 
   if( labelsQuery.isLoading ) {
     return (
-      <div className="flex justify-center items-center h-52">
-        loading...
+      <div className="flex w-full justify-center items-center h-52">
+        <LoadingSpinner/>
       </div>
     )
   }
