@@ -27,7 +27,7 @@ export const IssueItem = ({ issue }: IssueItemProp) => {
         </a>
         <span className="text-gray-500">
           {/* TODO: days ago */}
-          {`#${number} opnened by`}
+          {`#${number} opnened by `}
           <span className="font-bold">{user?.login}</span>
         </span>
       </div>
