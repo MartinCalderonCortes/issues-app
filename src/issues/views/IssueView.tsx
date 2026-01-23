@@ -13,9 +13,9 @@ export const IssueView = () => {
   const params = useParams();
   
   const issueNumber = Number(params.issueNumber ?? 0);
-  const { issueQuery } = useIssue(issueNumber);
+  const { issueQuery, issueCommentQuery } = useIssue(issueNumber);  
 
-  if( issueQuery.isLoading ) {
+  if( issueQuery.isLoading || issueCommentQuery.isLoading ) {
     return (
       <div className='flex justify-center items-center h-52'>Loading...</div>
     )
@@ -41,6 +41,14 @@ export const IssueView = () => {
 
       {/* Primer comentario */}
       <IssueComment issue={issueQuery.data} />
+
+      {
+        issueCommentQuery?.data 
+        ? issueCommentQuery.data?.map((comment) => (
+          <IssueComment key={comment.id} issue={comment}/>
+        ))
+        : null
+      }
 
       {/* Comentario de otros */}
       {/* <IssueComment body={comment2} />
