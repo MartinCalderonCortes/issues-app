@@ -1,7 +1,12 @@
 import { LoadingSpinner } from "../../share/components/LoadingSpinner";
 import { useLabels } from "../hooks/useLabels";
 
-export const LabelPicker = () => {
+interface LabelPickerProps {
+  selectedLabels: string[],
+  onSelectedLabels: (labelName: string) => void
+}
+
+export const LabelPicker = ({ selectedLabels, onSelectedLabels } : LabelPickerProps) => {
   const { labelsQuery } = useLabels()
 
   if( labelsQuery.isLoading ) {
@@ -17,9 +22,12 @@ export const LabelPicker = () => {
       {
         labelsQuery.data && labelsQuery.data.map(({ id, name, color }) => (
           <span
-            className="animate-fadeIn px-2 py-1 rounded-full text-xs font-semibold hover:bg-slate-800 cursor-pointer"
+            className={
+              `animate-fadeIn px-2 py-1 rounded-full text-xs font-semibold hover:bg-slate-800 cursor-pointer
+              ${ selectedLabels.includes(name) ? 'selected-label' : ''}`}
             style={{ border: `1px solid #${color}`, color: '#ffccd3' }}
             key={id}
+            onClick={() => onSelectedLabels(name)}
           >
             {name}
           </span>

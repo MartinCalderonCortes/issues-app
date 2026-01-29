@@ -7,10 +7,21 @@ import { useIssues } from '../hooks/useIssues';
 import { State } from '../interfaces/issues';
 
 export const ListView = () => {
-  const [state, setstate] = useState( State.All );  
-  const { issuesQuery } = useIssues(state)
+  const [state, setstate] = useState( State.All );
+  const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
+  
+  const { issuesQuery } = useIssues({ state, selectedLabels })
 
   const issues =  issuesQuery.data || []
+
+  const handleSelectedLabels = (labelName: string) => {
+    const labelExist = selectedLabels.includes(labelName)
+    if(labelExist) {
+      setSelectedLabels(selectedLabels.filter((label) => label !== labelName))
+    } else {
+      setSelectedLabels((prevLabels) => [...prevLabels, labelName])
+    }
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 mt-5">
@@ -23,7 +34,7 @@ export const ListView = () => {
       </div>
 
       <div className="col-span-1 px-2">
-        <LabelPicker />
+        <LabelPicker onSelectedLabels={handleSelectedLabels}  selectedLabels={selectedLabels}/>
       </div>
     </div>
   );
