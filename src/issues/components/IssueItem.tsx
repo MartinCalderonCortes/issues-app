@@ -45,8 +45,8 @@ export const IssueItem = ({ issue }: IssueItemProp) => {
     <div onMouseEnter={presetData} className="animate-fadeIn flex items-center px-2 py-3 mb-5 border rounded-md bg-slate-900 hover:bg-slate-800">
       {
         state === State.Open
-          ? <FiCheckCircle size={30} color="green" className="min-w-10" />
-          : <FiInfo size={30} color="red" className="min-w-10" />
+          ? <FiCheckCircle size={30} color="red" className="min-w-10" />
+          : <FiInfo size={30} color="green" className="min-w-10" />
       }
 
       <div className="flex flex-col flex-grow px-2 gap-1">
@@ -58,15 +58,15 @@ export const IssueItem = ({ issue }: IssueItemProp) => {
         </a>
         <span className="text-gray-500">
           {/* TODO: days ago */}
-          {`#${number} opnened by `}
+          {`#${number} opened by `}
           <span className="font-bold">{user?.login}</span>
         </span>
-        <div className='flex flex-wrap'>
+        <div className='flex flex-wrap gap-1'>
           {
             labels?.map((label) => (
               <span
                 key={label.id}
-                className='text-xs text-white rounded-md mr-1 px-2 py-1'
+                className='text-xs text-white rounded-md px-2 py-1'
                 style={{ border: `1px solid #${label.color}` }}
               >
                 {label.name}
