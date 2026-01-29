@@ -7,16 +7,16 @@ import { useIssues } from '../hooks/useIssues';
 import { State } from '../interfaces/issues';
 
 export const ListView = () => {
-  const [state, setstate] = useState( State.All );
+  const [state, setstate] = useState(State.All);
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
-  
-  const { issuesQuery } = useIssues({ state, selectedLabels })
 
-  const issues =  issuesQuery.data || []
+  const { issuesQuery, page, previousPage, nextPage } = useIssues({ state, selectedLabels })
+
+  const issues = issuesQuery.data || []
 
   const handleSelectedLabels = (labelName: string) => {
     const labelExist = selectedLabels.includes(labelName)
-    if(labelExist) {
+    if (labelExist) {
       setSelectedLabels(selectedLabels.filter((label) => label !== labelName))
     } else {
       setSelectedLabels((prevLabels) => [...prevLabels, labelName])
@@ -28,13 +28,30 @@ export const ListView = () => {
       <div className="col-span-1 sm:col-span-2">
         {
           issuesQuery.isLoading
-          ? <LoadingSpinner/>
-          : <IssueList issues={issues} onStateChange={setstate} state={state}/>
+            ? <LoadingSpinner />
+            : <IssueList issues={issues} onStateChange={setstate} state={state} />
         }
+        <footer className='flex gap-2 justify-center items-center'>
+          <button
+            className={`btn ${issuesQuery.isLoading || page === 1 ? 'cursor-not-allowed' : ''}`}
+            onClick={previousPage}
+            disabled={issuesQuery.isLoading || page === 1}
+          >
+            Prev
+          </button>
+          <span>{page}</span>
+          <button
+            className={`btn ${issuesQuery.isLoading ? 'cursor-not-allowed' : ''}`}
+            onClick={nextPage}
+            disabled={issuesQuery.isLoading}
+          >
+            Next
+          </button>
+        </footer>
       </div>
 
       <div className="col-span-1 px-2">
-        <LabelPicker onSelectedLabels={handleSelectedLabels}  selectedLabels={selectedLabels}/>
+        <LabelPicker onSelectedLabels={handleSelectedLabels} selectedLabels={selectedLabels} />
       </div>
     </div>
   );
