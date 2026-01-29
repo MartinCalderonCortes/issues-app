@@ -102,6 +102,7 @@ export interface IssueDependenciesSummary {
 }
 
 export enum State {
+  All = 'all',
   Open = 'open',
-  Close = 'close' 
+  Closed = 'closed' 
 }
