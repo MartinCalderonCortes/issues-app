@@ -12,7 +12,7 @@ interface IssueItemProp {
 export const IssueItem = ({ issue }: IssueItemProp) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient()
-  const { state, title, number, user, comments } = issue;
+  const { state, title, number, user, comments, labels } = issue;
 
 
   const preFetch = () => {
@@ -49,7 +49,7 @@ export const IssueItem = ({ issue }: IssueItemProp) => {
           : <FiInfo size={30} color="red" className="min-w-10" />
       }
 
-      <div className="flex flex-col flex-grow px-2">
+      <div className="flex flex-col flex-grow px-2 gap-1">
         <a
           onClick={() => navigate(`/issues/issue/${number}`)}
           className="hover:underline hover:cursor-pointer"
@@ -61,6 +61,19 @@ export const IssueItem = ({ issue }: IssueItemProp) => {
           {`#${number} opnened by `}
           <span className="font-bold">{user?.login}</span>
         </span>
+        <div className='flex flex-wrap'>
+          {
+            labels?.map((label) => (
+              <span
+                key={label.id}
+                className='text-xs text-white rounded-md mr-1 px-2 py-1'
+                style={{ border: `1px solid #${label.color}` }}
+              >
+                {label.name}
+              </span>
+            ))
+          }
+        </div>
       </div>
 
       <img
